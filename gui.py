@@ -34,7 +34,7 @@ os.chdir(APP_DIR)
 sys.path.insert(0, APP_DIR)
 
 try:
-    from PIL import Image, ImageTk
+    from PIL import Image, ImageTk, ImageSequence
     _PIL_AVAILABLE = True
 except ImportError:
     _PIL_AVAILABLE = False
@@ -510,44 +510,44 @@ class ZariaMaizeApp(tk.Tk):
     def _build_growth_tab(self):
         self._section_header(self.tab_growth, "et", "Crop Growth Simulation \u2014 Nursery to Harvest")
         outer = tk.Frame(self.tab_growth, bg=BG)
-        outer.pack(fill="both", expand=True, padx=14, pady=(0, 8))
+        outer.pack(fill="both", expand=True, padx=14, pady=(0, 6))
 
         top_row = tk.Frame(outer, bg=BG)
-        top_row.pack(fill="x", pady=(0, 6))
+        top_row.pack(fill="x", pady=(0, 3))
         tk.Button(top_row, text="Generate Growth Simulation", command=self._generate_growth_video_async,
                   bg="#8a4b00", fg="white", font=("Segoe UI", 9, "bold"), relief="flat",
-                  padx=10, pady=5).pack(side="left")
+                  padx=10, pady=4).pack(side="left")
         self.gif_play_btn = tk.Button(top_row, text="\u25b6 Play", command=self._toggle_gif_playback,
                                        bg=ACCENT, fg="white", font=("Segoe UI", 9, "bold"),
-                                       relief="flat", padx=10, pady=5, state="disabled")
-        self.gif_play_btn.pack(side="left", padx=(8, 0))
+                                       relief="flat", padx=10, pady=4, state="disabled")
+        self.gif_play_btn.pack(side="left", padx=(6, 0))
         self.gif_save_btn = tk.Button(top_row, text="Save GIF As...", command=self._save_growth_gif_as,
                                        bg="#4a7c3f", fg="white", font=("Segoe UI", 9, "bold"),
-                                       relief="flat", padx=10, pady=5, state="disabled")
-        self.gif_save_btn.pack(side="left", padx=(8, 0))
+                                       relief="flat", padx=10, pady=4, state="disabled")
+        self.gif_save_btn.pack(side="left", padx=(6, 14))
 
-        which_row = tk.Frame(outer, bg=BG)
-        which_row.pack(fill="x", pady=(0, 6))
-        tk.Label(which_row, text="Showing:", bg=BG, font=("Segoe UI", 9, "bold")).pack(side="left")
+        tk.Label(top_row, text="Showing:", bg=BG, font=("Segoe UI", 9, "bold")).pack(side="left")
         self.gif_which_var = tk.StringVar(value="growth")
-        tk.Radiobutton(which_row, text="Crop Growth (nursery \u2192 harvest)", variable=self.gif_which_var,
+        tk.Radiobutton(top_row, text="Crop Growth", variable=self.gif_which_var,
                         value="growth", bg=BG, font=("Segoe UI", 9), command=self._switch_gif_view
-                        ).pack(side="left", padx=(6, 10))
-        tk.Radiobutton(which_row, text="Irrigation Schedule (event by event)", variable=self.gif_which_var,
+                        ).pack(side="left", padx=(4, 8))
+        tk.Radiobutton(top_row, text="Irrigation Schedule", variable=self.gif_which_var,
                         value="irrigation", bg=BG, font=("Segoe UI", 9), command=self._switch_gif_view
                         ).pack(side="left")
+
         self.gif_stage_var = tk.StringVar(value="Click 'Generate Growth Simulation' after 'Update All Results'.")
-        tk.Label(outer, textvariable=self.gif_stage_var, bg=BG, font=("Segoe UI", 9, "italic"),
-                 fg=ACCENT_DARK).pack(anchor="w", pady=(0, 6))
+        tk.Label(outer, textvariable=self.gif_stage_var, bg=BG, font=("Segoe UI", 8, "italic"),
+                 fg=ACCENT_DARK).pack(anchor="w", pady=(0, 3))
 
         gif_frame = tk.Frame(outer, bg="white", relief="sunken", bd=1)
         gif_frame.pack(fill="both", expand=True)
         self.gif_canvas = tk.Canvas(gif_frame, bg="white")
         self.gif_canvas.pack(fill="both", expand=True)
+        self.gif_canvas.bind("<Configure>", self._on_gif_canvas_resize)
 
         self.growth_status_var = tk.StringVar(value="")
         tk.Label(outer, textvariable=self.growth_status_var, bg=BG, font=("Segoe UI", 8),
-                 fg="#777", wraplength=1100, justify="left").pack(anchor="w", pady=(4, 0))
+                 fg="#777", wraplength=1100, justify="left").pack(anchor="w", pady=(2, 0))
 
     def _build_save_report_tab(self):
         self._section_header(self.tab_save_report, "et", "Save Full Farm Report (Word document)")
@@ -734,41 +734,81 @@ class ZariaMaizeApp(tk.Tk):
             self.gif_play_btn.config(state="disabled")
             self.gif_save_btn.config(state="disabled")
             return
+
+        # Load every frame at FULL quality (PIL, if available) so the animation stays
+        # crisp -- scaling to fit the visible canvas happens separately at DISPLAY
+        # time in _show_gif_frame, so nothing is ever cropped off the top/bottom
+        # regardless of window size, and it rescales live if the window is resized.
+        self._gif_pil_frames = None
         self._gif_frame_images = []
-        i = 0
-        while True:
+        if _PIL_AVAILABLE:
             try:
-                img = tk.PhotoImage(file=path, format=f"gif -index {i}")
-            except Exception:
-                break
-            self._gif_frame_images.append(img)
-            i += 1
+                im = Image.open(path)
+                self._gif_pil_frames = [f.copy().convert("RGB") for f in ImageSequence.Iterator(im)]
+            except Exception as e:
+                print(f"[gif player] PIL load failed, falling back: {e}")
+                self._gif_pil_frames = None
+        if self._gif_pil_frames is None:
+            i = 0
+            while True:
+                try:
+                    img = tk.PhotoImage(file=path, format=f"gif -index {i}")
+                except Exception:
+                    break
+                self._gif_frame_images.append(img)
+                i += 1
+
         self._gif_frame_idx = 0
         self._gif_playing = False
         self.gif_play_btn.config(state="normal", text="\u25b6 Play")
         self.gif_save_btn.config(state="normal")
-        if self._gif_frame_images:
+        n_frames = len(self._gif_pil_frames) if self._gif_pil_frames else len(self._gif_frame_images)
+        if n_frames:
             self._show_gif_frame(0)
 
     def _switch_gif_view(self):
         self._load_gif_player()
 
     def _show_gif_frame(self, idx):
-        if not getattr(self, "_gif_frame_images", None):
+        pil_frames = getattr(self, "_gif_pil_frames", None)
+        legacy_frames = getattr(self, "_gif_frame_images", None)
+        n_frames = len(pil_frames) if pil_frames else (len(legacy_frames) if legacy_frames else 0)
+        if not n_frames:
             return
-        idx = idx % len(self._gif_frame_images)
+        idx = idx % n_frames
         self._gif_frame_idx = idx
-        img = self._gif_frame_images[idx]
+
         self.gif_canvas.delete("all")
-        w = self.gif_canvas.winfo_width() or img.width()
-        h = self.gif_canvas.winfo_height() or img.height()
-        self.gif_canvas.create_image(max(w, img.width()) // 2, max(h, img.height()) // 2,
-                                      anchor="center", image=img)
+        cw = self.gif_canvas.winfo_width() or 700
+        ch = self.gif_canvas.winfo_height() or 500
+        pad = 16
+
+        if pil_frames:
+            src = pil_frames[idx]
+            scale = min((cw - pad) / src.width, (ch - pad) / src.height, 1.0)
+            if scale < 1.0:
+                new_size = (max(1, int(src.width * scale)), max(1, int(src.height * scale)))
+                shown = src.resize(new_size, Image.LANCZOS)
+            else:
+                shown = src
+            photo = ImageTk.PhotoImage(shown)
+            self._gif_current_photo = photo  # keep a ref alive
+            self.gif_canvas.create_image(cw // 2, ch // 2, anchor="center", image=photo)
+        else:
+            img = legacy_frames[idx]
+            self.gif_canvas.create_image(cw // 2, ch // 2, anchor="center", image=img)
+
         rows = getattr(self, "_growth_stage_rows", [])
-        frames_per_stage = max(1, len(self._gif_frame_images) // max(1, len(rows)))
+        frames_per_stage = max(1, n_frames // max(1, len(rows)))
         stage_i = min(idx // frames_per_stage, len(rows) - 1) if rows else 0
         if rows:
-            self.gif_stage_var.set(f"Frame {idx + 1}/{len(self._gif_frame_images)} \u2014 {rows[stage_i]['label']}")
+            self.gif_stage_var.set(f"Frame {idx + 1}/{n_frames} \u2014 {rows[stage_i]['label']}")
+
+    def _on_gif_canvas_resize(self, event):
+        # Redraw the current frame scaled to the new canvas size (debounced isn't
+        # necessary here -- redrawing one already-loaded PIL frame is cheap).
+        if getattr(self, "_gif_pil_frames", None) or getattr(self, "_gif_frame_images", None):
+            self._show_gif_frame(getattr(self, "_gif_frame_idx", 0))
 
     def _toggle_gif_playback(self):
         self._gif_playing = not getattr(self, "_gif_playing", False)
