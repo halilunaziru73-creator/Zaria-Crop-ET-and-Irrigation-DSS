@@ -5,7 +5,7 @@ ZARIA CROP ET AND IRRIGATION DSS
 Location:      Samaru, Zaria, Kaduna State, Nigeria (Lat 11.11 N, 686.0 m a.s.l.)
 Crop:          Maize (Corn)
   Locally-reported seasonal ETc range: 420-550 mm
-Date:          2026-08-24 05:08:51   (day 236 of year)
+Date:          2026-08-24 16:53:48   (day 236 of year)
 INPUT TEMPERATURE:        32.0 °C  <-- entered
 INPUT HUMIDITY:           55.0 %  <-- entered
   (reconstructed Tmax/Tmin: 36.58/27.42 °C; wind/solar from trained climatology: 1.94 m/s, 21.25 MJ/m2/day)
