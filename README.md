@@ -56,3 +56,62 @@ area in the Irrigation Schedule tab to see volumes. Enter the farm owner's name 
 Save Farm Report to generate a full Word report.
 
 CLI equivalent: `python -m zaria_maize.main --mode {interactive,direct,indirect,compare}`
+
+---
+
+## Figures
+
+![Cumulative crop water use (ETc) accumulated over the growing season.](outputs/figures/cumulative_etc.png)
+*Cumulative crop water use (ETc) accumulated over the growing season.*
+
+![Irrigation-system efficiency breakdown: conveyance, distribution, application, and overall efficiency.](outputs/figures/efficiency_breakdown.png)
+*Irrigation-system efficiency breakdown: conveyance, distribution, application, and overall efficiency.*
+
+![Schematic farm map with delineated boundary and irrigation-method recommendation.](outputs/figures/farm_map_Sample_Farm_Owner.png)
+*Schematic farm map with delineated boundary and irrigation-method recommendation.*
+
+![Stage-by-stage filmstrip of the crop growth simulation, germination through harvest.](outputs/figures/growth_filmstrip_Sample_Farm_Owner.png)
+*Stage-by-stage filmstrip of the crop growth simulation, germination through harvest.*
+
+![Crop growth-stage simulation with per-stage water accounting.](outputs/figures/growth_simulation_Sample_Farm_Owner.png)
+*Crop growth-stage simulation with per-stage water accounting.*
+
+![Seasonal monitoring chart for routine field checks.](outputs/figures/monitoring_chart_Sample_Farm_Owner.png)
+*Seasonal monitoring chart for routine field checks.*
+
+![Combined evapotranspiration and climate panel for the season.](outputs/figures/panel_et_climate_Sample_Farm_Owner.png)
+*Combined evapotranspiration and climate panel for the season.*
+
+![Combined soil-water and irrigation-efficiency panel.](outputs/figures/panel_soil_efficiency_Sample_Farm_Owner.png)
+*Combined soil-water and irrigation-efficiency panel.*
+
+![Input / Core Processing / Output diagram of the full pipeline (also the workflow sketch above).](outputs/figures/process_diagram_Sample_Farm_Owner.png)
+*Input / Core Processing / Output diagram of the full pipeline (also the workflow sketch above).*
+
+![Comparison view of the QGIS-style terrain layout against the schematic farm map.](outputs/figures/qgis_comparison_Sample_Farm_Owner.png)
+*Comparison view of the QGIS-style terrain layout against the schematic farm map.*
+
+![Farm-specific QGIS-style terrain characterisation: location, altitude, slope, W-E and N-S profiles, aspect.](outputs/figures/qgis_terrain_Sample_Farm_Owner.png)
+*Farm-specific QGIS-style terrain characterisation: location, altitude, slope, W-E and N-S profiles, aspect.*
+
+![Rainfall versus crop water use (ETc) across the season.](outputs/figures/rainfall_vs_etc.png)
+*Rainfall versus crop water use (ETc) across the season.*
+
+![Seasonal crop ET compared against reference ET (ET0).](outputs/figures/seasonal_et_vs_reference.png)
+*Seasonal crop ET compared against reference ET (ET0).*
+
+![Daily soil-water depletion tracked against Total and Readily Available Water (TAW/RAW).](outputs/figures/soil_depletion.png)
+*Daily soil-water depletion tracked against Total and Readily Available Water (TAW/RAW).*
+
+![Soil profile used for the water-balance simulation.](outputs/figures/soil_profile_Sample_Farm_Owner.png)
+*Soil profile used for the water-balance simulation.*
+
+![Growing-degree-day (thermal unit) regression underlying the crop-stage model.](outputs/figures/thermal_unit_regression.png)
+*Growing-degree-day (thermal unit) regression underlying the crop-stage model.*
+
+![Comparison of ET calculation methods for the day tested.](outputs/figures/today_method_comparison.png)
+*Comparison of ET calculation methods for the day tested.*
+
+![Full seasonal water budget: rainfall, effective rainfall, ETc used, runoff, and deep percolation.](outputs/figures/water_budget.png)
+*Full seasonal water budget: rainfall, effective rainfall, ETc used, runoff, and deep percolation.*
+
