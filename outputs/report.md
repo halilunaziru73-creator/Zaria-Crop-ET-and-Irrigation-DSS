@@ -8,7 +8,7 @@
 | Latitude / Elevation | 11.11 N / 686.0 m |
 | Crop | Maize (Corn) |
 | Locally-reported seasonal ETc range | 420-550 mm |
-| Date | 2026-08-24 05:08:51 (day 236 of year) |
+| Date | 2026-08-24 16:53:48 (day 236 of year) |
 | **Input temperature** | **32.0 °C** |
 | **Input humidity** | **55.0 %** |
 | Reconstructed Tmax/Tmin | 36.58 / 27.42 °C |
