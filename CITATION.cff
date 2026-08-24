@@ -16,3 +16,8 @@ keywords:
 - soil water balance
 - precision agriculture
 - decision support system
+
+identifiers:
+- type: doi
+  value: 10.5281/zenodo.22076048
+  description: Archived snapshot on Zenodo
