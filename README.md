@@ -44,6 +44,14 @@ gui.py                   Desktop GUI (Tkinter)
 run_pipeline.py          CLI entry point
 ```
 
+## Download the Desktop App
+
+A packaged Windows desktop app is available, no Python installation required:
+
+**[⬇ Download ZariaCropETIrrigationDSS.exe](https://github.com/halilunaziru73-creator/Zaria-Crop-ET-and-Irrigation-DSS/releases/tag/v1.1.0)**
+
+(~284 MB, Windows only. Run the .exe directly.)
+
 ## How to Run It
 
 ```bash
