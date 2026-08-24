@@ -1,9 +1,29 @@
 {
   "title": "Zaria Crop ET and Irrigation DSS: A Modular Evapotranspiration, Soil-Water Balance, and Irrigation Scheduling Pipeline for Five Crops Grown Around Zaria, Nigeria",
   "description": "A modular Python pipeline with a Tkinter desktop GUI for reference/crop evapotranspiration, soil-water balance, irrigation scheduling, irrigation-system efficiency, and full farm-report generation for maize, rice, sorghum, pepper, and cowpea grown around Zaria, Nigeria.",
-  "creators": [{"name": "Halilu, Naziru", "orcid": "0009-0006-2324-9599"}],
-  "keywords": ["evapotranspiration", "irrigation scheduling", "soil water balance", "precision agriculture", "decision support system", "FAO-56", "Nigeria"],
+  "creators": [
+    {
+      "name": "Halilu, Naziru",
+      "orcid": "0009-0006-2324-9599"
+    }
+  ],
+  "keywords": [
+    "evapotranspiration",
+    "irrigation scheduling",
+    "soil water balance",
+    "precision agriculture",
+    "decision support system",
+    "FAO-56",
+    "Nigeria"
+  ],
   "license": "MIT",
   "upload_type": "software",
-  "access_right": "open"
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.22076048",
+      "relation": "isIdenticalTo",
+      "scheme": "doi"
+    }
+  ]
 }
