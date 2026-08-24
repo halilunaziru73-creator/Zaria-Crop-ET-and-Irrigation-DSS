@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zaria Crop ET and Irrigation DSS
+Comment=Crop evapotranspiration and irrigation decision support system for Zaria, Nigeria
+Exec=/opt/zaria-dss/ZariaCropETIrrigationDSS
+Icon=/opt/zaria-dss/assets/icons/app_icon_256.png
+Terminal=false
+Categories=Science;Education;
