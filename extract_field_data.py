@@ -7,7 +7,9 @@ One-off script that parses the source field-data workbook and writes verbatim CS
 """
 import xlrd, csv, os
 
-SRC = "/mnt/user-data/uploads/the source field-data workbook"
+SRC = os.path.join(os.path.dirname(__file__), "raw_data", "source_field_data.xls")
+# Place the original source field-data workbook at raw_data/source_field_data.xls
+# before running this script (not included in the repo; see README).
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 
